@@ -1,0 +1,5 @@
+{
+  "ros.distro": "melodic",
+  "cmake.configureOnOpen": false,
+  "dart.previewFlutterUiGuides": false
+}
