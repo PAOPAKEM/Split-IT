@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:split_it/pages/auth_page.dart';
 import 'firebase_options.dart';
 
-// !: Check The Page Navigator (Issue from Stack)
+// !: Check The Page Navigator
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -27,9 +27,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      debugShowCheckedModeBanner: false,
+      // debugShowCheckedModeBanner: false,
       home: AuthPage(),
     );
   }
 }
-

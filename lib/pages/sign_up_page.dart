@@ -27,7 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
         .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
 
     // pop the  loading circle
-    Navigator.pop(context);
   }
 
   @override
@@ -38,11 +37,11 @@ class _SignUpPageState extends State<SignUpPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LandingPage(),
-                ));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => LandingPage(),
+            //     ));
           },
         ),
         backgroundColor: Colors.white,
@@ -116,11 +115,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: const Text("Sign in"),
                   onPressed: () {
                     // TODO: Navigate to sign-up screen
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SigninPage(),
-                        ));
                   },
                 ),
               ],
