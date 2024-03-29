@@ -70,7 +70,7 @@ class _GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Groups',style: TextStyle(fontWeight: FontWeight.bold),textAlign: ),
+        title: Text('Groups',style: TextStyle(fontWeight: FontWeight.bold),),
         actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))],
       ),
       body: groups.isEmpty ? _buildNoGroupView() : _buildGroupList(),
