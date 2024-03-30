@@ -71,6 +71,9 @@ class _GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // By setting automaticallyImplyLeading to false, we prevent the AppBar from
+        // showing a back button automatically.
+        automaticallyImplyLeading: false,
         title: const Text(
           'Groups',
           style: TextStyle(fontWeight: FontWeight.bold),
