@@ -19,7 +19,23 @@ class GroupPage extends StatefulWidget {
 
 class _GroupPageState extends State<GroupPage> {
   // Placeholder for group data. You might have a class or structure for this.
-  List<Map<String, dynamic>> groups = [];
+  List<Map<String, dynamic>> groups = [
+    {
+      'image': 'https://via.placeholder.com/100x60',
+      'name': 'Group 1',
+      'date': '2024-03-30',
+    },
+    {
+      'image': 'https://via.placeholder.com/100x60',
+      'name': 'Group 2',
+      'date': '2024-03-29',
+    },
+    {
+      'image': 'https://via.placeholder.com/100x60',
+      'name': 'Group 3',
+      'date': '2024-04-29',
+    },
+  ];
 
   @override
   void initState() {
@@ -34,7 +50,17 @@ class _GroupPageState extends State<GroupPage> {
         var group = groups[index];
         // Each group could be a card or another widget that displays info.
         return ListTile(
-          leading: Image.network(group['image']), // Replace with proper image handling
+          leading: SizedBox(
+            width: 100.0,
+            height: 60.0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6.0),
+              child: Image.network(
+                group['image'],
+                fit: BoxFit.cover, // This is important for resizing while keeping aspect ratio
+              ),
+            ),
+          ), // Replace with proper image handling
           title: Text(group['name']),
           subtitle: Text('Date: ${group['date']}'),
           trailing: const Icon(Icons.chevron_right),
@@ -94,11 +120,12 @@ class _GroupPageState extends State<GroupPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Implement group creation
-        },
+        // TODO: Implement group creation
+        onPressed: createNewGroup,
         child: const Icon(Icons.add),
       ),
     );
   }
+
+  void createNewGroup() {}
 }

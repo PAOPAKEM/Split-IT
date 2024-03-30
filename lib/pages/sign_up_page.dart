@@ -1,7 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:split_it/pages/sign_in_page.dart';
-import 'package:split_it/pages/welcome_page.dart';
+import 'package:split_it/components/error_alert.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -11,9 +12,11 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _rememberMe = false;
+  var _isPasswordVisible = false;
 
-  Future<void> signUserIn() async {
+  Future<void> signUserUp() async {
     //show loading circle
     showDialog(
         context: context,
@@ -22,11 +25,19 @@ class _SignUpPageState extends State<SignUpPage> {
             child: CircularProgressIndicator(),
           );
         });
-    // try sign in
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
 
-    // pop the  loading circle
+    try {
+      if (_passwordController.text == _confirmPasswordController.text) {
+        await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+      } else {
+        ErrorAlert(message: "Passwords don't match", description: "Please make sure that your passwords are the same.");
+      }
+      Navigator.pushReplacementNamed(context, '/home');
+      ErrorAlert(message: "Passwords don't match", description: "Please make sure that your passwords are the same.");
+    } on FirebaseAuthException catch (e) {
+      ErrorAlert(message: e.code, description: e.stackTrace.toString());
+    }
   }
 
   @override
@@ -83,12 +94,42 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20.0),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock_outlined),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock_outlined),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: !_isPasswordVisible,
+              ),
+              const SizedBox(height: 20.0),
+              TextFormField(
+                controller: _confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock_outlined),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: !_isPasswordVisible,
               ),
               const SizedBox(height: 24.0),
               Row(
@@ -125,7 +166,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     backgroundColor: Colors.black,
                     padding: const EdgeInsets.all(16),
                   ),
-                  onPressed: signUserIn,
+                  onPressed: signUserUp,
                   child: const Text('Sign up')),
             ],
           ),

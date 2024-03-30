@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:split_it/pages/sign_in_page.dart';
-import 'package:split_it/pages/sign_up_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

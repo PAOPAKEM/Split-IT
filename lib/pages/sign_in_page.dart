@@ -2,8 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:split_it/pages/sign_up_page.dart';
-import 'package:split_it/pages/welcome_page.dart';
+import 'package:split_it/components/error_alert.dart';
 
 // !: Check The Page Navigator (Issue from Stack) Navigator 1.0
 
@@ -19,26 +18,27 @@ class _SigninPageState extends State<SigninPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _isPasswordVisible = false;
 
   // wrong Sign_in message pop up
-  void wrongEmailPasswordMessage() {
+  void wrongEmailPasswordMessage(String message, String description) {
     showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
+        return AlertDialog(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Sign In Failed',
-                style: TextStyle(
+                message,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
           content: Text(
-            'Sign in with an incorrect email address or password.',
+            description,
             textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.white,
@@ -58,8 +58,9 @@ class _SigninPageState extends State<SigninPage> {
     } on FirebaseAuthException catch (e) {
       // print(e.toString());
       if (e.code == 'invalid-credential' || e.code == 'invalid-email' || e.code == 'channel-error') {
-        wrongEmailPasswordMessage();
+        ErrorAlert(message: "Sign In Failed", description: "Sign in with an incorrect email address or password.");
       }
+    }
   }
 
   @override
@@ -116,12 +117,22 @@ class _SigninPageState extends State<SigninPage> {
               const SizedBox(height: 20.0),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.lock_outlined),
+                  border: const OutlineInputBorder(),
+                  prefixIcon: const Icon(Icons.lock_outlined),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: !_isPasswordVisible,
               ),
               const SizedBox(height: 24.0),
               Row(
