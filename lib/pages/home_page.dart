@@ -65,6 +65,7 @@ class _GroupPageState extends State<GroupPage> {
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   @override

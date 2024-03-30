@@ -47,17 +47,6 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  void emptyInputMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text('Fill All Fields!'),
-        );
-      },
-    );
-  }
-
   Future<void> signUserIn() async {
     // try sign in
     try {
@@ -70,10 +59,7 @@ class _SigninPageState extends State<SigninPage> {
       // print(e.toString());
       if (e.code == 'invalid-credential' || e.code == 'invalid-email' || e.code == 'channel-error') {
         wrongEmailPasswordMessage();
-      } else {
-        emptyInputMessage();
       }
-    }
   }
 
   @override
