@@ -30,11 +30,15 @@ class _SignUpPageState extends State<SignUpPage> {
       if (_passwordController.text == _confirmPasswordController.text) {
         await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+        Navigator.pushReplacementNamed(context, '/signin');
       } else {
-        ErrorAlert(message: "Passwords don't match", description: "Please make sure that your passwords are the same.");
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorAlert(
+                  message: "Passwords don't match", description: "Please make sure that your passwords are the same.");
+            });
       }
-      Navigator.pushReplacementNamed(context, '/home');
-      ErrorAlert(message: "Passwords don't match", description: "Please make sure that your passwords are the same.");
     } on FirebaseAuthException catch (e) {
       ErrorAlert(message: e.code, description: e.stackTrace.toString());
     }

@@ -50,6 +50,14 @@ class _SigninPageState extends State<SigninPage> {
   Future<void> signUserIn() async {
     // try sign in
     try {
+      if (_emailController.text == ""  || _passwordController.text == "") {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorAlert(
+                  message: "Sign In Failed", description: "Sign in with an incorrect email address or password.");
+            });
+      }
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
       // On successful sign-in, navigate to the home page
@@ -58,7 +66,12 @@ class _SigninPageState extends State<SigninPage> {
     } on FirebaseAuthException catch (e) {
       // print(e.toString());
       if (e.code == 'invalid-credential' || e.code == 'invalid-email' || e.code == 'channel-error') {
-        ErrorAlert(message: "Sign In Failed", description: "Sign in with an incorrect email address or password.");
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorAlert(
+                  message: "Sign In Failed", description: "Sign in with an incorrect email address or password.");
+            });
       }
     }
   }
