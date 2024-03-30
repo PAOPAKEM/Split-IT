@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: const Text("Sign in"),
                   onPressed: () {
                     // TODO: Navigate to sign-in screen
-                    Navigator.pushNamed(context, '/signin');
+                    Navigator.pushReplacementNamed(context, '/signin');
                   },
                 ),
               ],
