@@ -37,11 +37,7 @@ class _SignUpPageState extends State<SignUpPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => LandingPage(),
-            //     ));
+            Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.white,
@@ -114,7 +110,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 TextButton(
                   child: const Text("Sign in"),
                   onPressed: () {
-                    // TODO: Navigate to sign-up screen
+                    // TODO: Navigate to sign-in screen
+                    Navigator.pushNamed(context, '/signin');
                   },
                 ),
               ],

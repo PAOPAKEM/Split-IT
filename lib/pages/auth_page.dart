@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:split_it/pages/home_page.dart';
-import 'package:split_it/pages/sign_in_page.dart';
 import 'package:split_it/pages/welcome_page.dart';
 
 // Check If User Sign in or not?
@@ -20,7 +19,7 @@ class AuthPage extends StatelessWidget {
             }
             // user isn't logged in
             else {
-              return SigninPage();
+              return const WelcomePage();
             }
           }),
     );

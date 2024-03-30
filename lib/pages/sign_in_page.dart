@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:split_it/pages/sign_up_page.dart';
@@ -45,7 +47,6 @@ class _SigninPageState extends State<SigninPage> {
     );
   }
 
-  // wrong email message pop up
   void emptyInputMessage() {
     showDialog(
       context: context,
@@ -62,10 +63,15 @@ class _SigninPageState extends State<SigninPage> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text);
+      // On successful sign-in, navigate to the home page
+      // and remove all previous routes (e.g., the sign-in page)
+      Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      // print(e.toString());
       if (e.code == 'invalid-credential' || e.code == 'invalid-email' || e.code == 'channel-error') {
         wrongEmailPasswordMessage();
+      } else {
+        emptyInputMessage();
       }
     }
   }
@@ -79,6 +85,7 @@ class _SigninPageState extends State<SigninPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button (welcome_page)
+            Navigator.pop(context);
           },
         ),
         // backgroundColor: Colors.white,
@@ -167,6 +174,7 @@ class _SigninPageState extends State<SigninPage> {
                       child: const Text("Sign up"),
                       onPressed: () {
                         // TODO: Navigate to sign-up screen
+                        Navigator.pushNamed(context, '/signup');
                       },
                     ),
                   ),

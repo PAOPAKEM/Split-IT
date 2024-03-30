@@ -37,6 +37,7 @@ class WelcomePage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Handle sign up
+                    Navigator.pushNamed(context, '/signup');
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white, backgroundColor: Colors.black, // Text color
@@ -49,6 +50,7 @@ class WelcomePage extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () {
                     // Handle sign in
+                    Navigator.pushNamed(context, '/signin');
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.black,

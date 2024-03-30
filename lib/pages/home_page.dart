@@ -8,9 +8,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: GroupPage());
+    return Scaffold(backgroundColor: Colors.white, body: GroupPage());
   }
 }
 
@@ -39,7 +37,7 @@ class _GroupPageState extends State<GroupPage> {
           leading: Image.network(group['image']), // Replace with proper image handling
           title: Text(group['name']),
           subtitle: Text('Date: ${group['date']}'),
-          trailing: Icon(Icons.chevron_right),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () {
             // TODO: Implement navigation to group details
           },
@@ -54,14 +52,17 @@ class _GroupPageState extends State<GroupPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image.asset('assets/empty_group.png', width: 180.0),
-          SizedBox(height: 24.0),
-          Text('Empty',style: TextStyle(fontWeight: FontWeight.bold),),
-          Text('You haven’t created a group yet'),
+          const SizedBox(height: 24.0),
+          const Text(
+            'Empty',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const Text('You haven’t created a group yet'),
         ],
       ),
     );
   }
-  
+
   void signUserOut() {
     FirebaseAuth.instance.signOut();
   }
@@ -70,18 +71,21 @@ class _GroupPageState extends State<GroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Groups',style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          'Groups',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))],
       ),
       body: groups.isEmpty ? _buildNoGroupView() : _buildGroupList(),
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            IconButton(icon: Icon(Icons.home), onPressed: () {}),
-            IconButton(icon: Icon(Icons.contacts), onPressed: () {}),
-            IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.home), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.contacts), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {}),
           ],
         ),
       ),
@@ -89,7 +93,7 @@ class _GroupPageState extends State<GroupPage> {
         onPressed: () {
           // TODO: Implement group creation
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
