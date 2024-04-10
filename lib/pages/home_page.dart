@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -18,55 +22,68 @@ class GroupPage extends StatefulWidget {
 }
 
 class _GroupPageState extends State<GroupPage> {
-  // Placeholder for group data. You might have a class or structure for this.
-  List<Map<String, dynamic>> groups = [
-    {
-      'image': 'https://via.placeholder.com/100x60',
-      'name': 'Group 1',
-      'date': '2024-03-30',
-    },
-    {
-      'image': 'https://via.placeholder.com/100x60',
-      'name': 'Group 2',
-      'date': '2024-03-29',
-    },
-    {
-      'image': 'https://via.placeholder.com/100x60',
-      'name': 'Group 3',
-      'date': '2024-04-29',
-    },
-  ];
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
-    // TODO: Load your groups here from a database or state management solution.
   }
 
-  Widget _buildGroupList() {
+  Stream<List<Map<String, dynamic>>> getGroupStream() {
+    final String userUid = FirebaseAuth.instance.currentUser!.uid;
+    return firestore
+        .collection('Users')
+        .doc(userUid)
+        .collection('Groups')
+        .orderBy('date', descending: true) 
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        var data = doc.data();
+        data['id'] = doc.id; // Include the document ID in the data map
+        return data;
+      }).toList();
+    });
+  }
+
+  Widget _buildGroupList(List<Map<String, dynamic>> groups) {
     return ListView.builder(
       itemCount: groups.length,
       itemBuilder: (context, index) {
         var group = groups[index];
-        // Each group could be a card or another widget that displays info.
+        var formattedDate = group['date'] != null
+            ? DateFormat('dd/MM/yyyy').format(
+                (group['date'] as Timestamp).toDate(),
+              )
+            : 'No Date'; // Handling potential null values
         return ListTile(
-          leading: SizedBox(
-            width: 100.0,
-            height: 60.0,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6.0),
-              child: Image.network(
-                group['image'],
-                fit: BoxFit.cover, // This is important for resizing while keeping aspect ratio
-              ),
-            ),
-          ), // Replace with proper image handling
-          title: Text(group['name']),
-          subtitle: Text('Date: ${group['date']}'),
+          leading: group['image_path'] != null
+              ? SizedBox(
+                  width: 100.0,
+                  height: 60.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6.0),
+                    child: Image.file(
+                      File(group['image_path']),
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0); 
+                      },
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  width: 100.0,
+                  height: 60.0,
+                  child: Image.asset('assets/100x60.png'), // Placeholder when there's no image
+                ),
+          title: Text(group['title'] ?? 'No Title'),
+          subtitle: Text('Date: $formattedDate'), // Use formatted date
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            // TODO: Implement navigation to group details
+            // Implement navigation to group details if needed
           },
+          contentPadding: EdgeInsets.all(12),
         );
       },
     );
@@ -105,27 +122,49 @@ class _GroupPageState extends State<GroupPage> {
           'Groups',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))],
+        actions: [IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout), tooltip: "Log out")],
       ),
-      body: groups.isEmpty ? _buildNoGroupView() : _buildGroupList(),
+      body: StreamBuilder<List<Map<String, dynamic>>>(
+        stream: getGroupStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.error != null) {
+            return Center(child: Text("Error loading groups"));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return _buildNoGroupView();
+          }
+          return _buildGroupList(snapshot.data!);
+        },
+      ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            IconButton(icon: const Icon(Icons.home), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.contacts), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.home), onPressed: () {},tooltip: "Home",),
+            IconButton(icon: const Icon(Icons.contacts), onPressed: () {},tooltip: "Contact"),
+            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {},tooltip: "Profile"),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        // TODO: Implement group creation
-        onPressed: createNewGroup,
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 60,
+        width: 60,
+        child: FloatingActionButton(
+          shape: const CircleBorder(),
+          backgroundColor: Colors.grey.shade400,
+          onPressed: () {
+            Navigator.pushNamed(context, '/newgroup');
+          },
+          child: const Icon(
+            Icons.add,
+            size: 30,
+          ),
+        ),
       ),
     );
   }
-
-  void createNewGroup() {}
 }

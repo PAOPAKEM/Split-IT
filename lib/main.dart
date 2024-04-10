@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:split_it/pages/auth_page.dart';
 import 'package:split_it/pages/home_page.dart';
+import 'package:split_it/pages/new_group_page.dart';
 import 'package:split_it/pages/sign_in_page.dart';
 import 'package:split_it/pages/sign_up_page.dart';
-import 'package:split_it/pages/welcome_page.dart';
 import 'firebase_options.dart';
 
-// !: Check The Page Navigator
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -38,6 +37,7 @@ class MyApp extends StatelessWidget {
         '/signin': (BuildContext context) => const SigninPage(),
         '/signup': (BuildContext context) => SignUpPage(),
         '/home': (BuildContext context) => HomePage(),
+        '/newgroup': (BuildContext context) => NewGroupPage(),
       },
       initialRoute: '/',
     );

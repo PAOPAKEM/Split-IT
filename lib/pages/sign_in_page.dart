@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:split_it/components/error_alert.dart';
 
-// !: Check The Page Navigator (Issue from Stack) Navigator 1.0
-
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
 
@@ -50,7 +48,8 @@ class _SigninPageState extends State<SigninPage> {
   Future<void> signUserIn() async {
     // try sign in
     try {
-      if (_emailController.text == ""  || _passwordController.text == "") {
+      if ((_emailController.text.isEmpty || _passwordController.text.isEmpty) ||
+          (_emailController.text.isEmpty && _passwordController.text.isEmpty)) {
         showDialog(
             context: context,
             builder: (context) {
@@ -64,7 +63,6 @@ class _SigninPageState extends State<SigninPage> {
       // and remove all previous routes (e.g., the sign-in page)
       Navigator.pushReplacementNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      // print(e.toString());
       if (e.code == 'invalid-credential' || e.code == 'invalid-email' || e.code == 'channel-error') {
         showDialog(
             context: context,
