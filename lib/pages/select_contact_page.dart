@@ -140,9 +140,9 @@ class _SelectContactPageState extends State<SelectContactPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // This is the background color
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: Colors.black), // Border color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
@@ -150,16 +150,16 @@ class _SelectContactPageState extends State<SelectContactPage> {
                   ),
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
-                    'Cancle',
+                    'Cancel',
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Colors.white,
+                      color: Colors.black, // Text color
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, // This is the background color
+                    primary: Colors.black, // This is the background color
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0),
                     ),
@@ -170,7 +170,7 @@ class _SelectContactPageState extends State<SelectContactPage> {
                     'Save',
                     style: TextStyle(
                       fontSize: 16.0,
-                      color: Colors.white,
+                      color: Colors.white, // Text color
                     ),
                   ),
                 ),

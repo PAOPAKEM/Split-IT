@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +23,6 @@ class _NewGroupPageState extends State<NewGroupPage> {
   DateTime _selectedDate = DateTime.now();
   String _selectedCategory = 'Other';
 
-  // You may need to create a data model or class for this.
   List<Category> categories = [
     Category('Trip', Icons.flight_takeoff),
     Category('Family', Icons.family_restroom),
@@ -47,28 +48,44 @@ class _NewGroupPageState extends State<NewGroupPage> {
 
   Future<void> _uploadImageAndSaveGroup() async {
     if (_formKey.currentState!.validate()) {
-      String? localImagePath;
+      String? imageUrl;
+      final String userUid = FirebaseAuth.instance.currentUser!.uid;
+      final String groupId = 'Group_${DateTime.now().millisecondsSinceEpoch}'; // Generate a unique ID for the group
 
       if (_imageFile != null) {
-        // Use the local file path
-        localImagePath = _imageFile!.path;
-        print('File Path: $localImagePath');
+        // Upload the image to Firebase Storage
+        final Reference storageRef = FirebaseStorage.instance.ref('group_images/$userUid/$groupId/${_imageFile!.name}');
+        final UploadTask uploadTask = storageRef.putFile(File(_imageFile!.path));
+
+        try {
+          final TaskSnapshot taskSnapshot = await uploadTask;
+          imageUrl = await taskSnapshot.ref.getDownloadURL(); // Get the download URL after upload
+          print('Image Url => $imageUrl');
+        } catch (e) {
+          print('Error uploading image: $e');
+          if (e is FirebaseException) {
+            print('Firebase error code: ${e.code}');
+            print('Firebase error message: ${e.message}');
+            return; // Return from the function if there's an error
+          }
+        }
       } else {
         print('No image file selected');
-        return;
+        return; // Return from the function if no image is selected
       }
 
-      // Generate the rest of the group details
+      // Create the group document with the image URL
       final newGroup = {
         'title': _titleController.text,
         'description': _descriptionController.text,
-        'date': _selectedDate,
+        'date': Timestamp.fromDate(_selectedDate), // Convert to Timestamp for Firestore compatibility
         'category': _selectedCategory,
-        'image_path': localImagePath,
+        'image_url': imageUrl, // Save the image URL from Firebase Storage
       };
 
-      // Navigate to SelectContactPage with the newGroup data
-      Navigator.push(
+
+      // After the group is saved, navigate to the SelectContactPage or another appropriate page
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => SelectContactPage(groupData: newGroup),

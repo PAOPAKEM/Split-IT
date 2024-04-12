@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,7 +33,7 @@ class _GroupPageState extends State<GroupPage> {
         .collection('Users')
         .doc(userUid)
         .collection('Groups')
-        .orderBy('date', descending: true) 
+        .orderBy('date', descending: true)
         .snapshots()
         .map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -57,25 +55,26 @@ class _GroupPageState extends State<GroupPage> {
               )
             : 'No Date'; // Handling potential null values
         return ListTile(
-          leading: group['image_path'] != null
+          leading: group['image_url'] != null
               ? SizedBox(
                   width: 100.0,
                   height: 60.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(6.0),
-                    child: Image.file(
-                      File(group['image_path']),
+                    child: Image.network(
+                      group['image_url'],
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0); 
+                        // If there's an error loading the image, display a placeholder
+                        return const Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0);
                       },
                     ),
                   ),
                 )
-              : SizedBox(
+              : const SizedBox(
                   width: 100.0,
                   height: 60.0,
-                  child: Image.asset('assets/100x60.png'), // Placeholder when there's no image
+                  child: Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0), // Placeholder when there's no image
                 ),
           title: Text(group['title'] ?? 'No Title'),
           subtitle: Text('Date: $formattedDate'), // Use formatted date
@@ -83,7 +82,7 @@ class _GroupPageState extends State<GroupPage> {
           onTap: () {
             // Implement navigation to group details if needed
           },
-          contentPadding: EdgeInsets.all(12),
+          contentPadding: const EdgeInsets.all(12),
         );
       },
     );
@@ -144,9 +143,13 @@ class _GroupPageState extends State<GroupPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            IconButton(icon: const Icon(Icons.home), onPressed: () {},tooltip: "Home",),
-            IconButton(icon: const Icon(Icons.contacts), onPressed: () {},tooltip: "Contact"),
-            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {},tooltip: "Profile"),
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {},
+              tooltip: "Home",
+            ),
+            IconButton(icon: const Icon(Icons.contacts), onPressed: () {}, tooltip: "Contact"),
+            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {}, tooltip: "Profile"),
           ],
         ),
       ),

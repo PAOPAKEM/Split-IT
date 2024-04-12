@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      // home: const AuthPage(),
       routes: {
         '/': (BuildContext context) => const AuthPage(),
         '/signin': (BuildContext context) => const SigninPage(),
