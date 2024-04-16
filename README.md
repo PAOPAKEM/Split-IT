@@ -1,4 +1,4 @@
-# split_it
+# Split It
 
 A new Flutter project.
 
