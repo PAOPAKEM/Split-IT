@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:split_it/components/error_alert.dart';
 
 class SelectContactPage extends StatefulWidget {
   final Map<String, dynamic> groupData;
@@ -35,7 +36,6 @@ class _SelectContactPageState extends State<SelectContactPage> {
   }
 
   void _saveGroup() async {
-    // Retrieve the current user's UID
     final User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser == null) {
       print('No user logged in');
@@ -43,28 +43,43 @@ class _SelectContactPageState extends State<SelectContactPage> {
     }
     String userUid = currentUser.uid;
 
-    // Map the selected contacts to their identifi (like phone numbers, emails, etc.)
-    // Note: You would need to ensure that the contact identifier is stored in your contacts
+    // Reference to the user's 'Groups' subcollection
+    CollectionReference userGroups = FirebaseFirestore.instance.collection('Users').doc(userUid).collection('Groups');
+
+    // Get the current number of groups to determine the next index
+    QuerySnapshot querySnapshot = await userGroups.get();
+    int currentGroupCount = querySnapshot.docs.length;
+
+    String customGroupId = 'group_${currentGroupCount + 1}';
+
     List<String> selectedContact = _selectedContacts.map((contact) {
-      // You might want to use another identifier for the contact that's consistent
-      // across the app, such as a phone number or email.
       return contact.displayName ?? 'unknown';
     }).toList();
 
-    // Add the selected contacts'  to the group data
+    // Add yourself to members
+    selectedContact.add("Me");
+
+    // Add the selected contacts to the group data
     widget.groupData['members'] = selectedContact;
+    widget.groupData['group_id'] = customGroupId;
 
-    // Reference the specific user's 'Groups' subcollection
-    CollectionReference userGroups = FirebaseFirestore.instance.collection('Users').doc(userUid).collection('Groups');
+    // Set the new group data with a custom document ID
+    DocumentReference groupDocRef = userGroups.doc(customGroupId);
 
-    // Add the new group data to the user's 'Groups' subcollection
-    await userGroups.add(widget.groupData).then((docRef) {
-      print('Group added with ID: ${docRef.id}');
-      // After saving the group, navigate to the home page
+    await groupDocRef.set(widget.groupData).then((_) {
+      print('Group added with custom ID: $customGroupId');
       Navigator.pushReplacementNamed(context, '/home');
     }).catchError((error) {
-      // Handle errors, such as by showing a dialog to the user
-      print('Error adding group: $error');
+      // Handle errors by showing a dialog to the user
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ErrorAlert(
+            message: 'Error adding group',
+            description: '$error',
+          );
+        },
+      );
     });
   }
 
@@ -89,12 +104,19 @@ class _SelectContactPageState extends State<SelectContactPage> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                disabledBorder: InputBorder.none,
-                fillColor: Colors.grey.shade300,
-                border: InputBorder.none, // No border when not focused
-                focusedBorder: InputBorder.none, // No border when focused
-                labelText: 'Search contact',
-                suffixIcon: Icon(Icons.search),
+                hintText: 'Search contact',
+                prefixIcon: Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                ),
+                contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               ),
               onChanged: (value) {
                 setState(() {}); // Refresh the list with the filtered contacts
@@ -120,8 +142,9 @@ class _SelectContactPageState extends State<SelectContactPage> {
                   leading: (contact.avatar != null && contact.avatar!.isNotEmpty)
                       ? CircleAvatar(backgroundImage: MemoryImage(contact.avatar!))
                       : CircleAvatar(child: Text(contact.initials())),
-                  trailing:
-                      isSelected ? Icon(Icons.check_circle, color: Colors.green) : Icon(Icons.check_circle_outline),
+                  trailing: isSelected
+                      ? Icon(Icons.check_rounded, color: Colors.black87)
+                      : Icon(Icons.check_rounded, color: Colors.white.withOpacity(0)),
                   onTap: () {
                     setState(() {
                       if (isSelected) {
@@ -135,49 +158,44 @@ class _SelectContactPageState extends State<SelectContactPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: Colors.black), // Border color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black, // Text color
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black, // This is the background color
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50),
-                  ),
-                  onPressed: _saveGroup,
-                  child: const Text(
-                    'Save',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.white, // Text color
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: StadiumBorder(side: BorderSide(color: Colors.black87, width: 1.5)),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: _saveGroup,
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black87,
+                  shape: StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

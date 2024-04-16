@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:split_it/pages/group_datail.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -45,46 +47,63 @@ class _GroupPageState extends State<GroupPage> {
   }
 
   Widget _buildGroupList(List<Map<String, dynamic>> groups) {
-    return ListView.builder(
-      itemCount: groups.length,
-      itemBuilder: (context, index) {
-        var group = groups[index];
-        var formattedDate = group['date'] != null
-            ? DateFormat('dd/MM/yyyy').format(
-                (group['date'] as Timestamp).toDate(),
-              )
-            : 'No Date'; // Handling potential null values
-        return ListTile(
-          leading: group['image_url'] != null
-              ? SizedBox(
-                  width: 100.0,
-                  height: 60.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6.0),
-                    child: Image.network(
-                      group['image_url'],
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        // If there's an error loading the image, display a placeholder
-                        return const Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0);
-                      },
-                    ),
-                  ),
+    return AnimationLimiter(
+      child: ListView.builder(
+        itemCount: groups.length,
+        itemBuilder: (context, index) {
+          var group = groups[index];
+          var formattedDate = group['date'] != null
+              ? DateFormat('dd/MM/yyyy').format(
+                  (group['date'] as Timestamp).toDate(),
                 )
-              : const SizedBox(
-                  width: 100.0,
-                  height: 60.0,
-                  child: Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0), // Placeholder when there's no image
+              : 'No Date'; // Handling potential null values
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 375),
+            child: SlideAnimation(
+              verticalOffset: 50.0,
+              child: FadeInAnimation(
+                child: ListTile(
+                  leading: group['image_url'] != null
+                      ? SizedBox(
+                          width: 100.0,
+                          height: 60.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(6.0),
+                            child: Image.network(
+                              group['image_url'],
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                // If there's an error loading the image, display a placeholder
+                                return const Placeholder(fallbackHeight: 60.0, fallbackWidth: 100.0);
+                              },
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          width: 100.0,
+                          height: 60.0,
+                          child: Image.asset('assets/100x60.png'), // Placeholder when there's no image
+                        ),
+                  title: Text(group['title'] ?? 'No Title'),
+                  subtitle: Text('Date: $formattedDate'), // Use formatted date
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GroupDetailPage(groupData: group),
+                      ),
+                    );
+                  },
+
+                  contentPadding: const EdgeInsets.all(12),
                 ),
-          title: Text(group['title'] ?? 'No Title'),
-          subtitle: Text('Date: $formattedDate'), // Use formatted date
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            // Implement navigation to group details if needed
-          },
-          contentPadding: const EdgeInsets.all(12),
-        );
-      },
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -116,6 +135,7 @@ class _GroupPageState extends State<GroupPage> {
       appBar: AppBar(
         // By setting automaticallyImplyLeading to false, we prevent the AppBar from
         // showing a back button automatically.
+        centerTitle: true,
         automaticallyImplyLeading: false,
         title: const Text(
           'Groups',
@@ -165,6 +185,7 @@ class _GroupPageState extends State<GroupPage> {
           child: const Icon(
             Icons.add,
             size: 30,
+            color: Colors.black,
           ),
         ),
       ),

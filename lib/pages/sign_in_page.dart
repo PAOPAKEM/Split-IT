@@ -168,6 +168,15 @@ class _SigninPageState extends State<SigninPage> {
                     ),
                     onPressed: () {
                       // TODO: Implement forgot password functionality
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ErrorAlert(
+                            message: "Service Not Available",
+                            description: "If I'm free, I'll come do it. 😁",
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
@@ -181,7 +190,6 @@ class _SigninPageState extends State<SigninPage> {
                     child: TextButton(
                       child: const Text("Sign up"),
                       onPressed: () {
-                        // TODO: Navigate to sign-up screen
                         Navigator.pushReplacementNamed(context, '/signup');
                       },
                     ),

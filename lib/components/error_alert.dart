@@ -29,6 +29,7 @@ class ErrorAlert extends StatelessWidget {
       content: Text(
         description,
         textAlign: TextAlign.center,
+        style: TextStyle(fontWeight: FontWeight.w500),
       ),
       backgroundColor: Colors.white,
     );

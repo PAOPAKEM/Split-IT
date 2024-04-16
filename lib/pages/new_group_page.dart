@@ -70,8 +70,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
           }
         }
       } else {
-        print('No image file selected');
-        return; // Return from the function if no image is selected
+        print('No image file selected'); // Return from the function if no image is selected
       }
 
       // Create the group document with the image URL
@@ -82,7 +81,6 @@ class _NewGroupPageState extends State<NewGroupPage> {
         'category': _selectedCategory,
         'image_url': imageUrl, // Save the image URL from Firebase Storage
       };
-
 
       // After the group is saved, navigate to the SelectContactPage or another appropriate page
       Navigator.pushReplacement(
@@ -142,7 +140,11 @@ class _NewGroupPageState extends State<NewGroupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Group'),
+        centerTitle: true,
+        title: Text(
+          'New Group',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
