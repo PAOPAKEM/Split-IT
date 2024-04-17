@@ -40,7 +40,7 @@ dependencies:
   cloud_firestore: ^4.15.8
   image_picker: ^1.0.7
   firebase_storage: ^11.6.9
-  intl: ^0.19.0  # for DateFormat
+  intl: ^0.19.0 # for DateFormat
   contacts_service: ^0.6.3
   permission_handler: ^11.3.1
   scrollable_positioned_list: ^0.3.8
@@ -50,6 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -100,3 +101,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: true # Set to true if you want to update the Android icon    # Set to true if you want to update the iOS icon
+  image_path: "assets/logo.png"

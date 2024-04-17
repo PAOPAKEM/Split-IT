@@ -92,7 +92,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

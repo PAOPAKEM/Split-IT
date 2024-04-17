@@ -28,7 +28,8 @@ class WelcomePage extends StatelessWidget {
                 // App slogan
                 const Text(
                   'Easily split expenses with friends and family.',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 16),
+                  textAlign:  TextAlign.center,
                 ),
                 const SizedBox(height: 150),
                 // Sign Up Button
@@ -61,7 +62,7 @@ class WelcomePage extends StatelessWidget {
                 // Sign in with Google Button
                 ElevatedButton.icon(
                   icon: Image.asset('assets/google_logo.png', height: 24, width: 24), // Placeholder image
-                  label: const Text('Sign in with Google'),
+                  label: const Text('Sign in with Google',textAlign: TextAlign.center,),
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
