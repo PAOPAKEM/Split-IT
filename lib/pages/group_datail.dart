@@ -120,7 +120,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
               Tab(text: 'Expenses'),
               Tab(text: 'Bill'),
               Tab(text: 'Totals'),
-              Tab(text: 'Group Info'),
+              Tab(text: 'Info'),
             ],
           ),
           Expanded(
@@ -481,7 +481,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             Container(
-              height: 600,
+              height: 300,
               child: ListView.builder(
                 itemCount: widget.groupData['members'].length,
                 itemBuilder: (context, index) {
