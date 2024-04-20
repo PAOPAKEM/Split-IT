@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:split_it/components/error_alert.dart';
 import 'package:split_it/pages/select_contact_page.dart';
 
 class NewGroupPage extends StatefulWidget {
@@ -70,7 +71,14 @@ class _NewGroupPageState extends State<NewGroupPage> {
           }
         }
       } else {
-        print('No image file selected'); // Return from the function if no image is selected
+        print('No image file selected');
+        return showDialog(
+          context: context,
+          builder: (context) => ErrorAlert(
+            message: "Please add an Image",
+            description: "Need Cover image for Your Group",
+          ),
+        ); // Return from the function & show alert dialog if no image was added
       }
 
       // Create the group document with the image URL
@@ -82,7 +90,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
         'image_url': imageUrl, // Save the image URL from Firebase Storage
       };
 
-      // After the group is saved, navigate to the SelectContactPage or another appropriate page
+      // After the group is saved, navigate to the SelectContactPage
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -125,9 +133,9 @@ class _NewGroupPageState extends State<NewGroupPage> {
               _selectedCategory = (selected ? category.name : null)!;
             });
           },
-          selectedColor: Colors.black87, // Change to your desired color
+          selectedColor: Colors.black87,
           labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
-          backgroundColor: isSelected ? Colors.black54 : Colors.grey.shade200, // Change to your desired color
+          backgroundColor: isSelected ? Colors.black54 : Colors.grey.shade200,
           showCheckmark: false,
           padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           side: BorderSide.none,
@@ -187,6 +195,12 @@ class _NewGroupPageState extends State<NewGroupPage> {
               controller: _titleController,
               decoration: InputDecoration(
                   border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(16))), hintText: 'Title'),
+              validator: (value) {
+                if (value != null && value.isEmpty) {
+                  return 'Please enter a title';
+                }
+                return null; // Return null if the input is valid
+              },
             ),
             SizedBox(height: 16),
             Text(
@@ -217,7 +231,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
                   contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   title: Text(
                     DateFormat('dd/MM/yyyy').format(_selectedDate),
-                    style: TextStyle(fontSize: 16), // Add the font size or any other style you want
+                    style: TextStyle(fontSize: 16),
                   ),
                   trailing: Icon(Icons.calendar_today),
                 ),
@@ -233,7 +247,7 @@ class _NewGroupPageState extends State<NewGroupPage> {
         padding: EdgeInsets.all(8),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.black, // This is the background color
+            backgroundColor: Colors.black,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.0),
             ),

@@ -26,6 +26,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
         return Container(
           height: 300,
           child: ListView(
+            // TODO: Need to Revise for proper category
             children: [
               ListTile(
                 leading: Icon(Icons.games, color: Colors.red),
@@ -62,7 +63,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 title: Text('Liquor'),
                 onTap: () => _selectCategory('Liquor'),
               ),
-              // ... add more categories as needed ...
+              // ... add more categories if needed ...
             ],
           ),
         );
@@ -242,7 +243,6 @@ class _AddExpensePageState extends State<AddExpensePage> {
         'category': _selectedCategory,
       };
 
-      // Assume 'groupId' is obtained from somewhere within your app
       final firestore = FirebaseFirestore.instance;
       QuerySnapshot groupQuerySnapshot = await firestore
           .collection('Users')
@@ -259,7 +259,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
         String groupId = groupDocSnapshot.id;
         print('Obtained Group ID: $groupId');
 
-        // You can now use this groupId to reference the Expenses subcollection.
+        // use this groupId to reference the Expenses subcollection.
         CollectionReference expenses =
             firestore.collection('Users').doc(userUid).collection('Groups').doc(groupId).collection('Expenses');
 

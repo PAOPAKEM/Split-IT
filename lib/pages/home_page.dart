@@ -165,11 +165,23 @@ class _GroupPageState extends State<GroupPage> {
           children: <Widget>[
             IconButton(
               icon: const Icon(Icons.home),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/home');
+              },
               tooltip: "Home",
             ),
-            IconButton(icon: const Icon(Icons.contacts), onPressed: () {}, tooltip: "Contact"),
-            IconButton(icon: const Icon(Icons.account_circle), onPressed: () {}, tooltip: "Profile"),
+            IconButton(
+              icon: const Icon(Icons.contacts),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/contact');
+              },
+              tooltip: "Contact",
+            ),
+            IconButton(
+              icon: const Icon(Icons.account_circle),
+              onPressed: () {},
+              tooltip: "Profile",
+            ),
           ],
         ),
       ),
