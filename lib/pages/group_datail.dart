@@ -504,27 +504,67 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
       barrierDismissible: false, // User must tap button to dismiss the dialog
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm Delete'),
+          backgroundColor: Colors.white,
+          title: Text(
+            'Delete Group',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.red[300], fontWeight: FontWeight.w500),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure you want to delete this group?'),
+                Divider(
+                  thickness: 1,
+                ),
+                Text('Are you sure you want to delete the group?', textAlign: TextAlign.center),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(widget.groupData['title'],
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)
               ],
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Delete'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                deleteGroup();
-              },
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        shape: StadiumBorder(side: BorderSide(color: Colors.black87)),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        deleteGroup();
+                      },
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black87,
+                        shape: StadiumBorder(side: BorderSide(color: Colors.white)),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         );
