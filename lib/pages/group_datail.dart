@@ -423,7 +423,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
                         ),
                         SizedBox(height: 4),
                         Text(
-                          '฿$amountPerUser',
+                          '฿${amountPerUser.toStringAsFixed(2)}',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       ],
