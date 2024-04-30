@@ -47,7 +47,7 @@ class _GroupPageState extends State<GroupPage> {
   }
 
   Widget _buildGroupList(List<Map<String, dynamic>> groups) {
-    return AnimationLimiter(
+    return AnimationLimiter( 
       child: ListView.builder(
         itemCount: groups.length,
         itemBuilder: (context, index) {

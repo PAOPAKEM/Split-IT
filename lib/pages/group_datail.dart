@@ -72,7 +72,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
                   showDeleteConfirmationDialog();
                   break;
                 case 'notify':
-                  // Handle delete action
+                  // Handle notify action
                   break;
               }
             },
@@ -580,8 +580,28 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
 
       final String userUid = currentUser.uid;
 
-      // Delete the group document
-      await FirebaseFirestore.instance.collection('Users').doc(userUid).collection('Groups').doc(groupDocId).delete();
+      // Reference to the group's expenses collection
+      final CollectionReference expenses = FirebaseFirestore.instance
+          .collection('Users')
+          .doc(userUid)
+          .collection('Groups')
+          .doc(groupDocId)
+          .collection('Expenses');
+
+      // Retrieve all expense documents in the group
+      final QuerySnapshot expenseSnapshot = await expenses.get();
+
+      // Use a WriteBatch to delete all expenses in one operation
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+      for (DocumentSnapshot expenseDoc in expenseSnapshot.docs) {
+        batch.delete(expenseDoc.reference);
+      }
+
+      // Delete the group document after all expenses have been scheduled for deletion
+      batch.delete(FirebaseFirestore.instance.collection('Users').doc(userUid).collection('Groups').doc(groupDocId));
+
+      // Commit the batch write to execute all deletions
+      await batch.commit();
 
       // Navigate back to the previous screen after deletion
       Navigator.pop(context);
