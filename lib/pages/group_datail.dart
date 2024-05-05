@@ -502,13 +502,14 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // User must tap button to dismiss the dialog
+      useSafeArea: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text(
             'Delete Group',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.red[300], fontWeight: FontWeight.w500),
+            style: TextStyle(color: Colors.red[400], fontWeight: FontWeight.w500),
           ),
           content: SingleChildScrollView(
             child: ListBody(

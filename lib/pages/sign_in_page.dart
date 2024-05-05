@@ -86,7 +86,7 @@ class _SigninPageState extends State<SigninPage> {
             Navigator.pop(context);
           },
         ),
-        // backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
       backgroundColor: Colors.white,
