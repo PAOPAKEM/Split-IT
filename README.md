@@ -41,10 +41,10 @@ Split IT App is an app that will be developed for expense management. In the cas
     <th>Info Tab</th>
   </tr>
   <tr>
-    <td><img src="screenshot/GroupDetail.jpg" alt="Expenses Tabview" width="188"/></td>
-    <td><img src="screenshot/Bill.jpg" alt="Bill Tabview" width="188"/></td>
-    <td><img src="screenshot/Total.jpg" alt="Totals Tabview" width="188"/></td>
-    <td><img src="screenshot/Infomation.jpg" alt="Info Tabview" width="188"/></td>
+    <td><img src="screenshot/GroupDetail.jpg" alt="Expenses Tabview" width="200"/></td>
+    <td><img src="screenshot/Bill.jpg" alt="Bill Tabview" width="200"/></td>
+    <td><img src="screenshot/Total.jpg" alt="Totals Tabview" width="200"/></td>
+    <td><img src="screenshot/Infomation.jpg" alt="Info Tabview" width="200"/></td>
   </tr>
 </table>
 
