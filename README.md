@@ -2,8 +2,7 @@
 
 <img src="assets/logo.png" align="left"
 width="200" hspace="10" vspace="10">
-
-Split IT App is an app that will be developed for expense management. In the case of expenses that are Creating an expense burden for more than one person and using expenses in each section unequally. Split IT will help manage the distribution of expenses in various items of each bill.
+Welcome to Split iT! Our app is designed to simplify the process of tracking and splitting expenses among groups, making it ideal for outings, shared living expenses, or any scenario where group expenses are involved.
 <p align="left">
 <a href="https://drive.google.com/file/d/1j_CN-AZOl8G5u_kNzQHPVO800neMMpuM/view?usp=sharing">
     <img alt="Download from Google Drive"
@@ -11,6 +10,19 @@ Split IT App is an app that will be developed for expense management. In the cas
         src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=663683bd&is=66240ebd&hm=5127465c80ba744f92789921d223fda4df4c1cedeb09944b6fba7cb6111abd99&" />
 </a>  
 </p>
+
+# Features
+
+## 📊 Expense Tracking
+- **Track Expenses:** Log expenses incurred by group members and see a comprehensive view of all group expenses.
+
+## 💵 Bill Splitting
+- **Fair Splitting:** Automatically calculate how much each group member owes based on the expenses they've shared.
+- **Custom Splits(<p style="color:red">coming soon</p>):** Adjust the split ratio per member for each expense, ensuring fairness based on actual usage or agreement.
+
+## 👥 Group Management
+- **Create Groups:** Set up groups for different events or shared interests.
+- **Manage Membership(<p style="color:red">coming soon</p>):** Add or remove members as needed, from your contacts or by manually entering their details.
 
 # Screenshots
 
@@ -67,3 +79,12 @@ Split IT App is an app that will be developed for expense management. In the cas
     <td><img src="screenshot/addExpense.png" alt="Add Expense Page" width="250"/></td>
   </tr>
 </table>
+
+
+## Permissions Requested
+
+To provide the best experience and functionality, our app requests the following permissions from you:
+
+- **Camera Access**: Used for the [Capture Bill] feature to capture images of receipts directly.
+- **Storage Access**: Required to access photos and other media files from the user’s device storage, which is necessary when users choose to manually upload images of bills or receipts.
+- **Contacts Access**: Needed for adding participants from the user's contacts to groups.
