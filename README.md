@@ -10,7 +10,8 @@ Welcome to Split iT! Our app is designed to simplify the process of tracking and
         src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=663683bd&is=66240ebd&hm=5127465c80ba744f92789921d223fda4df4c1cedeb09944b6fba7cb6111abd99&" />
 </a>  
 </p>
-
+---
+# Features
 ## 📊 Expense Tracking
 - **Track Expenses:** Log expenses incurred by group members and see a comprehensive view of all group expenses.
 
