@@ -11,6 +11,7 @@ Welcome to Split iT! Our app is designed to simplify the process of tracking and
 </a>  
 </p>
 
+
 # Features
 
 ## 📊 Expense Tracking
