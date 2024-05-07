@@ -18,11 +18,11 @@ Welcome to Split iT! Our app is designed to simplify the process of tracking and
 
 ## 💵 Bill Splitting
 - **Fair Splitting:** Automatically calculate how much each group member owes based on the expenses they've shared.
-- <span style="color:red">**Custom Splits:**</span> Adjust the split ratio per member for each expense, ensuring fairness based on actual usage or agreement.
+- **Custom Splits(coming soon):** Adjust the split ratio per member for each expense, ensuring fairness based on actual usage or agreement.
 
 ## 👥 Group Management
 - **Create Groups:** Set up groups for different events or shared interests.
-- <span style="color:red">**Manage Members:**</span> Add or remove members as needed, from your contacts or by manually entering their details.
+- **Manage Members(coming soon):** Add or remove members as needed, from your contacts or by manually entering their details.
 
 # Screenshots
 
