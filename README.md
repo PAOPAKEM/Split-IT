@@ -1,6 +1,7 @@
 # Split It
 
-<img src="assets/logo.png" align="left"
+<div>
+    <img src="assets/logo.png" align="left"
 width="200" hspace="10" vspace="10">
 Welcome to Split iT! Our app is designed to simplify the process of tracking and splitting expenses among groups, making it ideal for outings, shared living expenses, or any scenario where group expenses are involved.
 <p align="left">
@@ -10,6 +11,7 @@ Welcome to Split iT! Our app is designed to simplify the process of tracking and
         src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=663683bd&is=66240ebd&hm=5127465c80ba744f92789921d223fda4df4c1cedeb09944b6fba7cb6111abd99&" />
 </a>  
 </p>
+</div>
 
 ---
 
