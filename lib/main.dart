@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:split_it/pages/auth_page.dart';
 import 'package:split_it/pages/contact_page.dart';
+import 'package:split_it/pages/error_page.dart';
 import 'package:split_it/pages/home_page.dart';
 import 'package:split_it/pages/new_group_page.dart';
 import 'package:split_it/pages/sign_in_page.dart';
@@ -40,6 +41,10 @@ class MyApp extends StatelessWidget {
         '/contact': (BuildContext context) => ContactPage(),
       },
       initialRoute: '/',
+      onUnknownRoute: (settings) {
+        // Handle unknown routes
+        return MaterialPageRoute(builder: (context) => const ErrorPage());
+      },
     );
   }
 }
