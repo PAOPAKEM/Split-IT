@@ -21,7 +21,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
   bool _isBillLoading = false;
   String _lastUpdated = DateTime.now().toString();
 
-  /// TODO: Use [userUid] replace the redundant variable declarations
+  /// TODO: Use [userUid] remove the redundant variable declarations
   final String userUid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
@@ -168,10 +168,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image == null) return; // User cancelled the picker
 
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser == null) return; // Ensure there's a user
-
-    final String userUid = currentUser.uid;
     final String groupDocId = widget.groupData['id'];
 
     // Upload the image to Firebase Storage
@@ -211,8 +207,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
 
   Widget _buildExpensesList() {
     final String groupDocId = widget.groupData['id'];
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-    String userUid = currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('Users')
@@ -338,8 +332,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
 
   Widget _buildTotalsView() {
     final String groupDocId = widget.groupData['id'];
-    final User? currentUser = FirebaseAuth.instance.currentUser;
-    String userUid = currentUser!.uid;
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -587,10 +579,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
   Future<void> deleteGroup() async {
     try {
       final String groupDocId = widget.groupData['id'];
-      final User? currentUser = FirebaseAuth.instance.currentUser;
-      if (currentUser == null) return; // Ensure there's a user
-
-      final String userUid = currentUser.uid;
 
       // Reference to the group's expenses collection
       final CollectionReference expenses = FirebaseFirestore.instance
