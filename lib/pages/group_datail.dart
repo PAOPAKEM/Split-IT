@@ -18,6 +18,11 @@ class GroupDetailPage extends StatefulWidget {
 class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool _showFab = true;
+  bool _isBillLoading = false;
+  String _lastUpdated = DateTime.now().toString();
+
+  /// TODO: Use [userUid] replace the redundant variable declarations
+  final String userUid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
@@ -173,6 +178,10 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     File file = File(image.path);
     String fileName = 'bill_${DateTime.now().millisecondsSinceEpoch}.jpg';
     try {
+      setState(() {
+        _isBillLoading = true; // Set loading state to true when starting upload
+      });
+
       // Uploading the image
       TaskSnapshot snapshot =
           await FirebaseStorage.instance.ref('user_bill/$userUid/$groupDocId/$fileName').putFile(file);
@@ -188,11 +197,15 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
           .doc(groupDocId)
           .update({'bill_image_url': downloadUrl});
 
-      // Set state to refresh the UI if needed
-      setState(() {});
+      setState(() {
+        _isBillLoading = false; // Set bill loading state to false after upload
+        _lastUpdated = DateTime.now().toString(); // Update lastUpdated to trigger rebuild
+      });
     } catch (e) {
       print('Error uploading bill image: $e');
-      // Handle errors here
+      setState(() {
+        _isBillLoading = false; // Set loading state to false if there's an error
+      });
     }
   }
 
@@ -243,10 +256,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     );
   }
 
-  // Add a state variable to trigger rebuilds
-  String _lastUpdated = DateTime.now().toString();
-  final String userUid = FirebaseAuth.instance.currentUser!.uid;
-
   Widget _buildBillView() {
     final String groupDocId = widget.groupData['id'];
 
@@ -260,7 +269,9 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData && snapshot.data!.exists) {
             Map<String, dynamic> groupData = snapshot.data!.data() as Map<String, dynamic>;
-            return SingleChildScrollView(
+            return _isBillLoading
+              ? Center(child: CircularProgressIndicator()) // Show loading indicator in Bill tab only
+              : SingleChildScrollView(
               child: Column(
                 children: [
                   Padding(

@@ -29,7 +29,7 @@ class WelcomePage extends StatelessWidget {
                 const Text(
                   'Easily split expenses with friends and family.',
                   style: TextStyle(fontSize: 16),
-                  textAlign:  TextAlign.center,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 150),
                 // Sign Up Button
@@ -44,7 +44,39 @@ class WelcomePage extends StatelessWidget {
                   ),
                   child: const Text('Sign up'),
                 ),
-                const SizedBox(height: 16),
+                // The Row with "or" and dividers
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(
+                          indent: 3,
+                          endIndent: 3,
+                          thickness: 1.5,
+                          color: Colors.black54, // Match the color of your design
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          "or",
+                          style: TextStyle(
+                            color: Colors.black54, // Match the text color of your design
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          indent: 3,
+                          endIndent: 3,
+                          thickness: 1.5,
+                          color: Colors.black54, // Match the color of your design
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // Sign In Button
                 OutlinedButton(
                   onPressed: () {
@@ -62,7 +94,10 @@ class WelcomePage extends StatelessWidget {
                 // Sign in with Google Button
                 ElevatedButton.icon(
                   icon: Image.asset('assets/google_logo.png', height: 24, width: 24), // Placeholder image
-                  label: const Text('Sign in with Google',textAlign: TextAlign.center,),
+                  label: const Text(
+                    'Sign in with Google',
+                    textAlign: TextAlign.center,
+                  ),
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black,
