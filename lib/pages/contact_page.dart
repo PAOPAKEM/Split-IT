@@ -52,8 +52,8 @@ class _ContactPageState extends State<ContactPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField( 
-              decoration: InputDecoration( 
+            child: TextField(
+              decoration: InputDecoration(
                 hintText: 'Search contact',
                 prefixIcon: Icon(Icons.search),
                 filled: true,

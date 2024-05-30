@@ -42,13 +42,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     if (_tabController.index == 0) {
       // Check if 'Expenses' tab is active
       if (!_showFab) {
-        setState(() {
+        (() {
           _showFab = true; // Show FAB when 'Expenses' tab is selected
         });
       }
     } else {
       if (_showFab) {
-        setState(() {
+        (() {
           _showFab = false; // Hide FAB when other tabs are selected
         });
       }
@@ -174,7 +174,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
     File file = File(image.path);
     String fileName = 'bill_${DateTime.now().millisecondsSinceEpoch}.jpg';
     try {
-      setState(() {
+      (() {
         _isBillLoading = true; // Set loading state to true when starting upload
       });
 
@@ -193,13 +193,13 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
           .doc(groupDocId)
           .update({'bill_image_url': downloadUrl});
 
-      setState(() {
+      (() {
         _isBillLoading = false; // Set bill loading state to false after upload
         _lastUpdated = DateTime.now().toString(); // Update lastUpdated to trigger rebuild
       });
     } catch (e) {
       print('Error uploading bill image: $e');
-      setState(() {
+      (() {
         _isBillLoading = false; // Set loading state to false if there's an error
       });
     }
@@ -264,48 +264,48 @@ class _GroupDetailPageState extends State<GroupDetailPage> with SingleTickerProv
           if (snapshot.hasData && snapshot.data!.exists) {
             Map<String, dynamic> groupData = snapshot.data!.data() as Map<String, dynamic>;
             return _isBillLoading
-              ? Center(child: CircularProgressIndicator()) // Show loading indicator in Bill tab only
-              : SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: groupData['bill_image_url'] != null
-                        ? Image.network(
-                            groupData['bill_image_url'],
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.height / 2,
-                          )
-                        : Text('No bill uploaded yet.'),
-                  ),
-                  ElevatedButton.icon(
-                    icon: Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
+                ? Center(child: CircularProgressIndicator()) // Show loading indicator in Bill tab only
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: groupData['bill_image_url'] != null
+                              ? Image.network(
+                                  groupData['bill_image_url'],
+                                  fit: BoxFit.cover,
+                                  height: MediaQuery.of(context).size.height / 2,
+                                )
+                              : Text('No bill uploaded yet.'),
+                        ),
+                        ElevatedButton.icon(
+                          icon: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Capture Bill',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                          ),
+                          onPressed: () {
+                            _captureAndUploadBill().then((_) {
+                              // Update lastUpdated to trigger a FutureBuilder rebuild
+                              (() {
+                                _lastUpdated = DateTime.now().toString();
+                              });
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                    label: Text(
-                      'Capture Bill',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
-                    ),
-                    onPressed: () {
-                      _captureAndUploadBill().then((_) {
-                        // Update lastUpdated to trigger a FutureBuilder rebuild
-                        setState(() {
-                          _lastUpdated = DateTime.now().toString();
-                        });
-                      });
-                    },
-                  ),
-                ],
-              ),
-            );
+                  );
           } else {
             return SingleChildScrollView(
               child: Column(
