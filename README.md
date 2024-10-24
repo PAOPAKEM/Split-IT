@@ -7,7 +7,7 @@ Welcome to Split iT! Our app is designed to simplify the process of tracking and
 <a href="https://drive.google.com/file/d/1j_CN-AZOl8G5u_kNzQHPVO800neMMpuM/view?usp=sharing">
     <img alt="Download from Google Drive"
         height="80"
-        src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=663683bd&is=66240ebd&hm=5127465c80ba744f92789921d223fda4df4c1cedeb09944b6fba7cb6111abd99&" />
+        src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=671b3ffd&is=6719ee7d&hm=213693e3347a19bfc4820d53873801f2d0443c7f9ecfa21a72cf9ae2a5d3bd21" />
 </a>  
 </p>
 
