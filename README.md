@@ -1,14 +1,13 @@
-# Split It
-
-<img src="assets/logo.png" align="left"
-width="200" hspace="10" vspace="10">
-Welcome to Split iT! Our app is designed to simplify the process of tracking and splitting expenses among groups, making it ideal for outings, shared living expenses, or any scenario where group expenses are involved.
-<p align="left">
-<a href="https://drive.google.com/file/d/1j_CN-AZOl8G5u_kNzQHPVO800neMMpuM/view?usp=sharing">
-    <img alt="Download from Google Drive"
-        height="80"
-        src="https://cdn.discordapp.com/attachments/1150116334617759794/1231316379374850119/image.png?ex=671b3ffd&is=6719ee7d&hm=213693e3347a19bfc4820d53873801f2d0443c7f9ecfa21a72cf9ae2a5d3bd21" />
-</a>  
+<p align="center">
+    <img src="assets/logo.png" width="200" hspace="10" vspace="10">
+</p>
+<h1 align="center">Split It!</h1>
+<p>Welcome to Split It! Our app is designed to simplify the process of tracking and splitting expenses among groups, making it ideal for outings, shared living expenses, or any scenario where group expenses are involved.</p>
+<div></div>
+<p align="center">
+<a style="text-decoration:none" href="https://drive.google.com/file/d/1j_CN-AZOl8G5u_kNzQHPVO800neMMpuM/view?usp=sharing" target="_blank">
+    <img alt="GitHub all releases" src="https://img.shields.io/badge/Download-App-black">
+</a>
 </p>
 
 
