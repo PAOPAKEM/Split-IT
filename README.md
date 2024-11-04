@@ -6,7 +6,7 @@
 <div></div>
 <p align="center">
 <a style="text-decoration:none" href="https://drive.google.com/file/d/1j_CN-AZOl8G5u_kNzQHPVO800neMMpuM/view?usp=sharing" target="_blank">
-    <img alt="GitHub all releases" src="https://img.shields.io/badge/Download-App-black">
+    <img alt="GitHub all releases" src="https://img.shields.io/badge/Download%20App-Android-green">
 </a>
 </p>
 
